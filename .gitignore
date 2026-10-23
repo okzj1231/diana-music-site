@@ -1,0 +1,29 @@
+# Dipendenze e build
+node_modules/
+dist/
+build/
+.cache/
+
+# Variabili d'ambiente e segreti
+.env
+.env.*
+*.pem
+*.key
+
+# Log
+*.log
+npm-debug.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Claude Code (impostazioni locali)
+.claude/

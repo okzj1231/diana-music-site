@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIANA — R&B</title>
+<meta name="description" content="Sito ufficiale di Diana, artista R&B.">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --text: #1A1A1A;
+    --accent: #3B82F6;
+    --accent-dark: #2563EB;
+    --muted: #F3F4F6;
+    --nav-h: 64px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    padding-top: var(--nav-h);
+  }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  /* Navigazione */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h);
+    background: rgba(255,255,255,.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #E5E7EB;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; z-index: 100;
+  }
+  .logo { font-weight: 900; letter-spacing: .15em; font-size: 1.1rem; }
+  nav ul { display: flex; gap: 28px; list-style: none; }
+  nav ul a {
+    font-size: .85rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em;
+    padding: 6px 0; border-bottom: 2px solid transparent; transition: border-color .2s, color .2s;
+  }
+  nav ul a:hover, nav ul a.active { color: var(--accent); border-color: var(--accent); }
+
+  section { padding: 96px 24px; max-width: 1100px; margin: 0 auto; }
+  h2.label {
+    font-size: .85rem; text-transform: uppercase; letter-spacing: .2em;
+    color: var(--accent); font-weight: 700; margin-bottom: 32px;
+  }
+
+  /* Hero */
+  .hero { text-align: center; padding: 120px 24px 100px; }
+  .hero h1 {
+    font-size: clamp(3.5rem, 15vw, 9rem);
+    font-weight: 900; text-transform: uppercase; letter-spacing: .04em; line-height: 1;
+    display: inline-block; position: relative; padding-bottom: 18px;
+  }
+  .hero h1::after {
+    content: ""; position: absolute; left: 0; bottom: 0; height: 8px; width: 100%;
+    background: linear-gradient(90deg, #93C5FD, #3B82F6, #1D4ED8, #3B82F6, #93C5FD);
+    background-size: 200% 100%;
+    transform-origin: left; animation: draw 1.2s ease-out both, flow 4s linear 1.2s infinite;
+    border-radius: 4px;
+  }
+  @keyframes draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes flow { to { background-position: -200% 0; } }
+  .tagline { margin-top: 24px; font-size: 1.1rem; letter-spacing: .25em; text-transform: uppercase; color: #555; }
+
+  /* Singolo */
+  .single { display: flex; align-items: center; gap: 48px; flex-wrap: wrap; }
+  .cover {
+    width: 300px; height: 300px; flex: none;
+    background: var(--muted); border: 2px dashed #CBD5E1;
+    display: flex; align-items: center; justify-content: center;
+    color: #94A3B8; font-size: .8rem; text-transform: uppercase; letter-spacing: .15em; text-align: center;
+  }
+  .single-info h3 { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; text-transform: uppercase; line-height: 1.1; }
+  .single-info p { color: #555; margin: 8px 0 24px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--accent); color: #fff; border: 0; cursor: pointer;
+    font: inherit; font-weight: 700; font-size: .9rem; text-transform: uppercase; letter-spacing: .1em;
+    padding: 14px 28px; border-radius: 999px; transition: background .2s, transform .2s;
+  }
+  .btn:hover { background: var(--accent-dark); transform: translateY(-2px); }
+  .btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+  /* Merch */
+  .merch { display: flex; align-items: center; gap: 48px; flex-wrap: wrap; }
+  .merch-img {
+    width: 100%; max-width: 420px; aspect-ratio: 1; flex: 1 1 280px;
+    background: var(--muted); border: 2px dashed #CBD5E1;
+    display: flex; align-items: center; justify-content: center;
+    color: #94A3B8; font-size: .8rem; text-transform: uppercase; letter-spacing: .15em;
+  }
+  .merch-info { flex: 1 1 280px; }
+  .merch-info h3 { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 800; text-transform: uppercase; }
+  .price { font-size: 1.5rem; font-weight: 700; margin: 8px 0 24px; }
+
+  /* Mailing list */
+  .mailing { text-align: center; border-top: 1px solid #E5E7EB; }
+  .mailing h3 { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 800; text-transform: uppercase; }
+  .mailing p { color: #555; margin: 8px 0 28px; }
+  form { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  input[type=email] {
+    flex: 1 1 260px; max-width: 380px; padding: 14px 20px; font: inherit;
+    border: 2px solid #D1D5DB; border-radius: 999px; background: #fff; color: var(--text);
+  }
+  input[type=email]:focus { border-color: var(--accent); outline: none; }
+  #msg { margin-top: 20px; min-height: 1.5em; font-weight: 600; color: var(--accent); }
+  #msg.err { color: #B91C1C; }
+
+  footer { text-align: center; padding: 32px 24px; font-size: .8rem; color: #777; border-top: 1px solid #E5E7EB; }
+
+  @media (max-width: 720px) {
+    nav { padding: 0 16px; }
+    nav ul { gap: 16px; }
+    nav ul a { font-size: .7rem; letter-spacing: .05em; }
+    .logo { display: none; }
+    nav { justify-content: center; }
+    section { padding: 64px 20px; }
+    .single, .merch { flex-direction: column; text-align: center; gap: 32px; }
+    .cover { width: min(300px, 100%); height: auto; aspect-ratio: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero h1::after { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<nav aria-label="Navigazione principale">
+  <a href="index.html" class="logo">DIANA</a>
+  <ul>
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="#musica">Musica</a></li>
+    <li><a href="merch.html">Merchandising</a></li>
+    <li><a href="tour.html">Tour</a></li>
+  </ul>
+</nav>
+
+<header class="hero" id="home">
+  <h1>DIANA</h1>
+  <p class="tagline">R&amp;B</p>
+</header>
+
+<section id="musica">
+  <h2 class="label">Nuovo singolo</h2>
+  <div class="single">
+    <div class="cover" role="img" aria-label="Segnaposto copertina album">Copertina<br>300 × 300</div>
+    <div class="single-info">
+      <h3>Titolo del singolo</h3>
+      <p>Diana · Disponibile ora</p>
+      <button class="btn" type="button" aria-label="Riproduci il singolo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        Riproduci
+      </button>
+    </div>
+  </div>
+</section>
+
+<section id="merch">
+  <h2 class="label">Merchandising</h2>
+  <div class="merch">
+    <div class="merch-img" role="img" aria-label="Segnaposto immagine felpa">Immagine felpa</div>
+    <div class="merch-info">
+      <h3>Felpa con cappuccio “Debut”</h3>
+      <div class="price">$65</div>
+      <a class="btn" href="merch.html">Acquista ora</a>
+    </div>
+  </div>
+</section>
+
+<section class="mailing" id="tour">
+  <h3>Resta connessə</h3>
+  <p>Iscriviti alla mailing list per novità, uscite e date del tour.</p>
+  <form id="mailForm" novalidate>
+    <label for="email" class="sr" style="position:absolute;left:-9999px">Indirizzo e-mail</label>
+    <input type="email" id="email" placeholder="La tua e-mail" required autocomplete="email">
+    <button class="btn" type="submit">Iscriviti</button>
+  </form>
+  <div id="msg" role="status" aria-live="polite"></div>
+</section>
+
+<footer>© 2026 Diana. Tutti i diritti riservati.</footer>
+
+<script>
+  document.getElementById('mailForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = document.getElementById('email');
+    var msg = document.getElementById('msg');
+    if (input.checkValidity() && input.value.trim()) {
+      msg.className = '';
+      msg.textContent = 'Grazie! Sei iscritto alla mailing list.';
+      input.value = '';
+    } else {
+      msg.className = 'err';
+      msg.textContent = 'Inserisci un indirizzo e-mail valido.';
+    }
+  });
+</script>
+</body>
+</html>

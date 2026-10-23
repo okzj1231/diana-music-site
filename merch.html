@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Merchandising — DIANA</title>
+<meta name="description" content="Il merchandising ufficiale di Diana.">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --text: #1A1A1A;
+    --accent: #3B82F6;
+    --accent-dark: #2563EB;
+    --nav-h: 64px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.5; padding-top: var(--nav-h);
+  }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  /* Navigazione */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h);
+    background: rgba(255,255,255,.95); backdrop-filter: blur(8px);
+    border-bottom: 1px solid #E5E7EB;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; z-index: 100;
+  }
+  .logo { font-weight: 900; letter-spacing: .15em; font-size: 1.1rem; }
+  nav ul { display: flex; gap: 28px; list-style: none; }
+  nav ul a {
+    font-size: .85rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em;
+    padding: 6px 0; border-bottom: 2px solid transparent; transition: border-color .2s, color .2s;
+  }
+  nav ul a:hover, nav ul a.active { color: var(--accent); border-color: var(--accent); }
+
+  /* Pagina */
+  main { max-width: 1000px; margin: 0 auto; padding: 72px 24px 96px; }
+  h1 {
+    font-size: clamp(2.5rem, 9vw, 5rem); font-weight: 900; text-transform: uppercase;
+    letter-spacing: .04em; line-height: 1; display: inline-block; position: relative; padding-bottom: 14px;
+  }
+  h1::after {
+    content: ""; position: absolute; left: 0; bottom: 0; height: 6px; width: 100%; border-radius: 3px;
+    background: linear-gradient(90deg, #93C5FD, #3B82F6, #1D4ED8);
+  }
+  .intro { margin: 20px 0 56px; color: #555; }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px 40px; }
+  .product {
+    display: flex; flex-direction: column; padding: 16px; border-radius: 12px;
+    background: #fff; box-shadow: 0 1px 4px rgba(26,26,26,.08);
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+  .img-wrap { overflow: hidden; position: relative; cursor: pointer; }
+  .tag {
+    position: absolute; top: 12px; right: 12px; z-index: 1;
+    color: #fff; font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    padding: 5px 10px; border-radius: 4px; line-height: 1.2;
+  }
+  .tag.blue { background: var(--accent); }
+  .tag.black { background: var(--text); }
+  .img {
+    transition: transform .4s ease;
+    width: 100%; aspect-ratio: 1; background: #E5E7EB;
+    display: flex; align-items: center; justify-content: center;
+    color: #9CA3AF; font-size: .8rem; text-transform: uppercase; letter-spacing: .15em; text-align: center; padding: 12px;
+  }
+  .product h2 { font-size: 1.25rem; font-weight: 800; text-transform: uppercase; margin-top: 16px; }
+  .price { font-size: 1.15rem; font-weight: 700; margin: 2px 0 6px; }
+  .size-row { margin-bottom: 14px; min-height: 46px; display: flex; align-items: center; }
+  select {
+    width: 100%; padding: 12px 14px; font: inherit; color: var(--text);
+    border: 2px solid #D1D5DB; border-radius: 8px; background: #fff;
+  }
+  select:focus { border-color: var(--accent); outline: none; }
+  .one-size { color: #555; font-size: .9rem; text-transform: uppercase; letter-spacing: .1em; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+    background: var(--accent); color: #fff; border: 2px solid var(--accent); cursor: pointer;
+    font-weight: 700; font-size: .9rem; text-transform: uppercase; letter-spacing: .1em;
+    padding: 12px 24px; border-radius: 999px; transition: background .25s, color .25s, border-color .25s;
+    margin-top: auto;
+  }
+  .btn:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+
+  /* Effetti hover (solo dispositivi con puntatore; su touch il pulsante resta pieno) */
+  @media (hover: hover) {
+    .btn { background: #fff; color: var(--accent); }
+    .product:hover, .product:focus-within { transform: scale(1.02); box-shadow: 0 14px 36px rgba(26,26,26,.18); }
+    .product:hover .img, .product:focus-within .img { transform: scale(1.05); }
+    .product:hover .btn, .product:focus-within .btn { background: var(--accent); color: #fff; }
+    .product .btn:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+  }
+  .btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+  /* Anteprima rapida */
+  .modal {
+    position: fixed; inset: 0; z-index: 400; padding: 24px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(26,26,26,.35); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility .3s;
+  }
+  .modal.open { opacity: 1; visibility: visible; }
+  .dialog {
+    position: relative; width: min(860px, 100%); max-height: calc(100vh - 48px); overflow-y: auto;
+    background: #fff; border-radius: 16px; box-shadow: 0 24px 64px rgba(26,26,26,.3);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding: 32px;
+    transform: translateY(16px) scale(.97); transition: transform .3s ease;
+  }
+  .modal.open .dialog { transform: none; }
+  .dialog .img-wrap { cursor: default; align-self: start; }
+  .dialog .img { transition: none; }
+  .dialog-info { display: flex; flex-direction: column; min-width: 0; }
+  .dialog-info h2 { font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 900; text-transform: uppercase; line-height: 1.15; margin: 0 40px 0 0; }
+  .dialog-info .price { font-size: 1.5rem; margin: 8px 0 16px; }
+  .dialog-info .desc { color: #555; margin-bottom: 20px; }
+  .dialog-info .size-row { margin-bottom: 20px; }
+  .dialog-info .btn { margin-top: auto; background: var(--accent); color: #fff; }
+  .dialog-info .btn:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+  .modal-close {
+    position: absolute; top: 12px; right: 12px; width: 44px; height: 44px;
+    background: none; border: 0; cursor: pointer; font-size: 2rem; line-height: 1; color: var(--text); border-radius: 50%;
+  }
+  .modal-close:hover { color: var(--accent); }
+
+  footer { text-align: center; padding: 32px 24px; font-size: .8rem; color: #777; border-top: 1px solid #E5E7EB; }
+
+  @media (max-width: 720px) {
+    nav { padding: 0 16px; justify-content: center; }
+    nav ul { gap: 16px; }
+    nav ul a { font-size: .7rem; letter-spacing: .05em; }
+    .logo { display: none; }
+    main { padding: 48px 20px 72px; }
+    .grid { grid-template-columns: 1fr; gap: 40px; }
+    .modal { padding: 12px; }
+    .dialog { grid-template-columns: 1fr; gap: 20px; padding: 20px; max-height: calc(100vh - 24px); }
+    .dialog-info h2 { margin-top: 4px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn, .product, .img, .modal, .dialog { transition: none; }
+    .product:hover, .product:focus-within, .product:hover .img, .product:focus-within .img { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav aria-label="Navigazione principale">
+  <a href="index.html" class="logo">DIANA</a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#musica">Musica</a></li>
+    <li><a href="merch.html" class="active" aria-current="page">Merchandising</a></li>
+    <li><a href="tour.html">Tour</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h1>Merch</h1>
+  <p class="intro">Il merchandising ufficiale di Diana. Edizioni limitate, fino a esaurimento scorte.</p>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>© 2026 Diana. Tutti i diritti riservati.</footer>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" type="button" aria-label="Chiudi anteprima">&times;</button>
+    <div class="img-wrap" id="modalImg"></div>
+    <div class="dialog-info">
+      <h2 id="modalTitle"></h2>
+      <div class="price" id="modalPrice"></div>
+      <p class="desc" id="modalDesc"></p>
+      <div class="size-row" id="modalSize"></div>
+      <a class="btn" id="modalBuy" target="_blank" rel="noopener noreferrer"></a>
+    </div>
+  </div>
+</div>
+
+<script>
+  var LOCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+  // sizes: elenco = menu a tendina; fixed = taglia unica; assente = nessuna taglia.
+  // La taglia scelta viaggia nel link Stripe come client_reference_id (es. "hoodie_M"),
+  // visibile sul pagamento nella dashboard Stripe.
+  var PRODUCTS = [
+    { id: 'tee',    name: 'Maglietta dell’album',               price: '$35', sizes: ['S','M','L','XL'], url: 'https://buy.stripe.com/test_7sY7sDavu0txbqr1vM5c404' },
+    { id: 'hoodie', name: 'Felpa con cappuccio “Debut”',        price: '$65', sizes: ['S','M','L','XL'], tag: { text: 'Best Seller', color: 'blue' }, url: 'https://buy.stripe.com/test_6oU3cn476ccf3XZ2zQ5c403' },
+    { id: 'vinyl',  name: 'Vinile in edizione limitata',        price: '$30', tag: { text: 'Limited', color: 'black' }, url: 'https://buy.stripe.com/test_fZu4gr0UU903fGH4HY5c402' },
+    { id: 'poster', name: 'Poster con la copertina dell’album', price: '$20', url: 'https://buy.stripe.com/test_cNi14f0UUfor3XZ5M25c401' },
+    { id: 'cap',    name: 'Cappellino classico da papà',        price: '$25', fixed: 'unica', url: 'https://buy.stripe.com/test_6oU5kvgTSdgjcuva2i5c400' }
+  ];
+
+  function buyUrl(p, size) {
+    if (!size) return p.url;
+    return p.url + '?client_reference_id=' + encodeURIComponent(p.id + '_' + size);
+  }
+
+  document.getElementById('grid').innerHTML = PRODUCTS.map(function (p) {
+    var size = '', first = null;
+    if (p.sizes) {
+      first = p.sizes[0];
+      size = '<select id="size-' + p.id + '" data-id="' + p.id + '" aria-label="Taglia per ' + p.name + '">' +
+        p.sizes.map(function (s) { return '<option>' + s + '</option>'; }).join('') + '</select>';
+    } else if (p.fixed) {
+      first = p.fixed;
+      size = '<span class="one-size">Taglia unica</span>';
+    }
+    return '<article class="product">' +
+      '<div class="img-wrap" data-preview="' + p.id + '" role="button" tabindex="0" aria-label="Anteprima rapida: ' + p.name + '">' +
+      (p.tag ? '<span class="tag ' + p.tag.color + '">' + p.tag.text + '</span>' : '') +
+      '<div class="img" role="img" aria-label="Segnaposto immagine: ' + p.name + '">Immagine prodotto</div></div>' +
+      '<h2>' + p.name + '</h2>' +
+      '<div class="price">' + p.price + '</div>' +
+      '<div class="size-row">' + size + '</div>' +
+      '<a class="btn" id="buy-' + p.id + '" href="' + buyUrl(p, first) + '" target="_blank" rel="noopener noreferrer" ' +
+      'aria-label="Acquista ora: ' + p.name + ' (pagamento sicuro, si apre in una nuova scheda)">' +
+      LOCK + 'Acquista ora</a></article>';
+  }).join('');
+
+  var $ = function (id) { return document.getElementById(id); };
+  function findProduct(id) { return PRODUCTS.filter(function (x) { return x.id === id; })[0]; }
+  var DESC = 'Qui va la descrizione del prodotto: materiali, vestibilità, dettagli dell’edizione e tutto ciò che il cliente deve sapere prima di acquistare.';
+
+  // Aggiorna il link di acquisto quando cambia la taglia
+  $('grid').addEventListener('change', function (e) {
+    var id = e.target.getAttribute('data-id');
+    if (!id) return;
+    $('buy-' + id).href = buyUrl(findProduct(id), e.target.value);
+  });
+
+  // Anteprima rapida
+  var modal = $('modal'), modalId = null, lastFocus = null;
+
+  function openModal(id) {
+    var p = findProduct(id), card = $('buy-' + id).closest('.product');
+    var cardSelect = $('size-' + id);
+    modalId = id; lastFocus = document.activeElement;
+
+    $('modalImg').innerHTML = (p.tag ? '<span class="tag ' + p.tag.color + '">' + p.tag.text + '</span>' : '') +
+      '<div class="img" role="img" aria-label="Segnaposto immagine: ' + p.name + '">Immagine prodotto</div>';
+    $('modalTitle').textContent = p.name;
+    $('modalPrice').textContent = p.price;
+    $('modalDesc').textContent = DESC;
+
+    var size = '', current = null;
+    if (p.sizes) {
+      current = cardSelect.value;
+      size = '<select id="modalSelect" aria-label="Taglia per ' + p.name + '">' +
+        p.sizes.map(function (s) { return '<option' + (s === current ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select>';
+    } else if (p.fixed) {
+      current = p.fixed;
+      size = '<span class="one-size">Taglia unica</span>';
+    }
+    $('modalSize').innerHTML = size;
+    var buy = $('modalBuy');
+    buy.href = buyUrl(p, current);
+    buy.setAttribute('aria-label', 'Acquista ora: ' + p.name + ' (pagamento sicuro, si apre in una nuova scheda)');
+    buy.innerHTML = LOCK + 'Acquista ora';
+
+    modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    $('modalClose').focus();
+  }
+  function closeModal() {
+    modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    modalId = null;
+    if (lastFocus) lastFocus.focus();
+  }
+
+  $('grid').addEventListener('click', function (e) {
+    var wrap = e.target.closest('.img-wrap');
+    if (wrap) openModal(wrap.getAttribute('data-preview'));
+  });
+  $('grid').addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var wrap = e.target.closest('.img-wrap');
+    if (!wrap) return;
+    e.preventDefault();
+    openModal(wrap.getAttribute('data-preview'));
+  });
+
+  // Il selettore dell'anteprima resta allineato a quello della scheda
+  $('modalSize').addEventListener('change', function (e) {
+    var p = findProduct(modalId);
+    $('size-' + modalId).value = e.target.value;
+    $('buy-' + modalId).href = buyUrl(p, e.target.value);
+    $('modalBuy').href = buyUrl(p, e.target.value);
+  });
+
+  $('modalClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') { closeModal(); return; }
+    if (e.key === 'Tab') {
+      var f = modal.querySelectorAll('button, select, a[href]');
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  // Rimuove il carrello salvato dalle versioni precedenti della pagina
+  try { localStorage.removeItem('diana-cart'); } catch (e) {}
+</script>
+</body>
+</html>
